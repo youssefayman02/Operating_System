@@ -2,6 +2,12 @@ import java.io.*;
 import java.util.Scanner;
 
 public class SystemCalls {
+    private Scheduler scheduler;
+
+    public SystemCalls(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
+
     public String readFile(String fileName) {
         StringBuilder content = new StringBuilder();
         try {
@@ -45,29 +51,34 @@ public class SystemCalls {
         return sc.nextLine();
     }
 
-    // missing memory functions
     public Object readMemory(String address) {
-        return scheduler.getMemory().get(address);
+        for (MemoryWord index : scheduler.getMemory().getMemoryWords()) {
+            if (index.getAddress().equals(address)) {
+                return index;
+
+            }
+        }
+        return null;
     }
 
     public void writeMemory(String address, Object data) {
-        if (scheduler.getMemorySize() == 0) {
+        if (scheduler.getMemory().getMemoryWords().size() == 40) {
+            MemoryWord olWord = scheduler.getMemory().getMemoryWords().remove(0);
 
-            scheduler.setMemorySize(scheduler.getMemorySize() + 1);
-            Object value = scheduler.getMemory().remove(scheduler.getAddresses().get(0));
-            String varibale = scheduler.getAddresses().remove(0);
-            String diskInput = varibale + "," + value;
+            String diskInput = olWord.getAddress() + "," + olWord.getData() + "\n";
+
             this.writeFile("Disk", diskInput);
 
         }
-        scheduler.setMemorySize(scheduler.getMemorySize() - 1);
-        scheduler.putAddresses(address);
-        scheduler.getMemory().put(address, data);
+        MemoryWord newWord = new MemoryWord();
+        newWord.setAddress(address);
+        newWord.setData(data);
+        scheduler.getMemory().getMemoryWords().add(newWord);
+
     }
 
     public static void main(String[] args) {
-        SystemCalls sc = new SystemCalls();
-        sc.writeFile("test", "Youssef");
+
     }
 
 }
