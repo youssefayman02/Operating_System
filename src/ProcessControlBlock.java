@@ -52,4 +52,10 @@ public class ProcessControlBlock {
     public void setEndBoundary(int endBoundary) {
         this.endBoundary = endBoundary;
     }
+
+    @Override
+    public String toString() {
+        return "Process id: " + this.processId + " Process State: " + processState + " PC: " + programCounter + " Start Boundary: " + startBoundary
+        + " End Boundary: " + endBoundary;
+    }
 }

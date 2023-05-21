@@ -2,10 +2,9 @@ import java.io.*;
 import java.util.Scanner;
 
 public class SystemCalls {
-    private Scheduler scheduler;
 
-    public SystemCalls(Scheduler scheduler) {
-        this.scheduler = scheduler;
+    public SystemCalls() {
+
     }
 
     public String readFile(String fileName) {
@@ -41,44 +40,37 @@ public class SystemCalls {
         }
     }
 
-    public void printData(String data) {
+    public void printData(Object data) {
         System.out.println(data);
     }
 
     public String takeInput() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Please enter a value");
-        return sc.nextLine();
+        System.out.println("Please enter a value ");
+        String s = sc.nextLine();
+        return s;
     }
 
-    public Object readMemory(String address) {
-        for (MemoryWord index : scheduler.getMemory().getMemoryWords()) {
-            if (index.getAddress().equals(address)) {
-                return index;
-
-            }
+    public Object readMemory(int index, Memory memory) {
+        if (memory.isValidAddress(index))
+        {
+            return memory.getMemoryWords()[index];
         }
+        System.out.println("Invalid address to read from");
         return null;
     }
 
-    public void writeMemory(String address, Object data) {
-        if (scheduler.getMemory().getMemoryWords().size() == 40) {
-            MemoryWord olWord = scheduler.getMemory().getMemoryWords().remove(0);
-
-            String diskInput = olWord.getAddress() + "," + olWord.getData() + "\n";
-
-            this.writeFile("Disk", diskInput);
-
+    public void writeMemory(Object data, int index, Memory memory) {
+        if (memory.isValidAddress(index))
+        {
+            memory.getMemoryWords()[index].setData(data);
+            return;
         }
-        MemoryWord newWord = new MemoryWord();
-        newWord.setAddress(address);
-        newWord.setData(data);
-        scheduler.getMemory().getMemoryWords().add(newWord);
-
+        else
+        {
+            System.out.println("Invalid address to write to");
+        }
     }
 
-    public static void main(String[] args) {
-
-    }
 
 }

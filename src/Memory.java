@@ -1,20 +1,20 @@
 import java.util.Vector;
 
 public class Memory {
-    private Vector<MemoryWord> memoryWords;
+    private MemoryWord[] memoryWords;
     private final int memorySize = 40;
-    private Vector<ProcessControlBlock> pcbs;
-
 
     public Memory() {
-        this.memoryWords = new Vector<MemoryWord>();
+        this.memoryWords = new MemoryWord[memorySize];
+        initializeFirstPartition();
+        initializeSecondPartition();
     }
 
-    public Vector<MemoryWord> getMemoryWords() {
+    public MemoryWord[] getMemoryWords() {
         return memoryWords;
     }
 
-    public void setMemoryWords(Vector<MemoryWord> memoryWords) {
+    public void setMemoryWords(MemoryWord[] memoryWords) {
         this.memoryWords = memoryWords;
     }
 
@@ -22,18 +22,92 @@ public class Memory {
         return memorySize;
     }
 
-    // public boolean isEmpty(int startIndex, int endIndex) {
-    // if (endIndex < startIndex) {
-    // return false;
-    // }
+    public boolean isValidAddress (int address)
+    {
+        return address >= 0 && address < memorySize;
+    }
+    public void printMemory()
+    {
+        System.out.println("Memory Contents: ");
+        System.out.println("---------------------------------------- First Partition ----------------------------------------");
 
-    // for (int i = startIndex; i < endIndex; i++) {
-    // if (this.data[i] != null) {
-    // return false;
-    // }
-    // }
+        for (int i = 0; i < 20; i++)
+        {
+            System.out.println("Address " + i + ":  "+this.memoryWords[i].toString());
+        }
 
-    // return true;
-    // }
+        System.out.println("---------------------------------------- Second Partition ----------------------------------------");
+
+        for (int i = 20; i < memorySize; i++)
+        {
+            System.out.println("Address " + i + ": "+this.memoryWords[i].toString());
+        }
+
+        System.out.println("---------------------------------------- End Memory ----------------------------------------");
+    }
+
+    public boolean isFirstPartitionEmpty()
+    {
+        return memoryWords[0].getData() == null;
+    }
+
+    public boolean isSecondPartitionEmpty()
+    {
+        return memoryWords[20].getData() == null;
+    }
+    public boolean isEmpty()
+    {
+        return isFirstPartitionEmpty() || isSecondPartitionEmpty();
+    }
+
+    public void initializeFirstPartition()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            this.memoryWords[i] = new MemoryWord();
+        }
+
+        this.memoryWords[0].setAddress("Process Id");
+        this.memoryWords[1].setAddress("Process State");
+        this.memoryWords[2].setAddress("PC");
+        this.memoryWords[3].setAddress("Start Boundary");
+        this.memoryWords[4].setAddress("End Boundary");
+        this.memoryWords[5].setAddress("Variable X");
+        this.memoryWords[6].setAddress("Variable Y");
+        this.memoryWords[7].setAddress("Variable Z");
+
+        for (int i = 8; i < 20; i++)
+        {
+            this.memoryWords[i].setAddress("Instruction " + (i - 8));
+        }
+    }
+
+    public void initializeSecondPartition()
+    {
+        for (int i = 20; i < memorySize; i++)
+        {
+            this.memoryWords[i] = new MemoryWord();
+        }
+
+        this.memoryWords[20].setAddress("Process Id");
+        this.memoryWords[21].setAddress("Process State");
+        this.memoryWords[22].setAddress("PC");
+        this.memoryWords[23].setAddress("Start Boundary");
+        this.memoryWords[24].setAddress("End Boundary");
+        this.memoryWords[25].setAddress("Variable X");
+        this.memoryWords[26].setAddress("Variable Y");
+        this.memoryWords[27].setAddress("Variable Z");
+
+        for (int i = 28; i < memorySize; i++)
+        {
+            this.memoryWords[i].setAddress("Instruction " + (i - 28));
+        }
+    }
+
+
+    public static void main(String[] args) {
+
+    }
+
 
 }
