@@ -29,21 +29,21 @@ public class Memory {
     public void printMemory()
     {
         System.out.println("Memory Contents: ");
-        System.out.println("---------------------------------------- First Partition ----------------------------------------");
+        System.out.println("**************************************** First Partition ****************************************");
 
         for (int i = 0; i < 20; i++)
         {
-            System.out.println("Address " + i + ":  "+this.memoryWords[i].toString());
+            System.out.println("Address " + i + ": "+this.memoryWords[i].toString());
         }
 
-        System.out.println("---------------------------------------- Second Partition ----------------------------------------");
+        System.out.println("**************************************** Second Partition ****************************************");
 
         for (int i = 20; i < memorySize; i++)
         {
             System.out.println("Address " + i + ": "+this.memoryWords[i].toString());
         }
 
-        System.out.println("---------------------------------------- End Memory ----------------------------------------");
+        System.out.println("**************************************** End Memory ****************************************");
     }
 
     public boolean isFirstPartitionEmpty()
@@ -72,9 +72,9 @@ public class Memory {
         this.memoryWords[2].setAddress("PC");
         this.memoryWords[3].setAddress("Start Boundary");
         this.memoryWords[4].setAddress("End Boundary");
-        this.memoryWords[5].setAddress("Variable X");
-        this.memoryWords[6].setAddress("Variable Y");
-        this.memoryWords[7].setAddress("Variable Z");
+        this.memoryWords[5].setAddress("Variable 1");
+        this.memoryWords[6].setAddress("Variable 2");
+        this.memoryWords[7].setAddress("Variable 3");
 
         for (int i = 8; i < 20; i++)
         {
@@ -94,20 +94,14 @@ public class Memory {
         this.memoryWords[22].setAddress("PC");
         this.memoryWords[23].setAddress("Start Boundary");
         this.memoryWords[24].setAddress("End Boundary");
-        this.memoryWords[25].setAddress("Variable X");
-        this.memoryWords[26].setAddress("Variable Y");
-        this.memoryWords[27].setAddress("Variable Z");
+        this.memoryWords[25].setAddress("Variable 1");
+        this.memoryWords[26].setAddress("Variable 2");
+        this.memoryWords[27].setAddress("Variable 3");
 
         for (int i = 28; i < memorySize; i++)
         {
             this.memoryWords[i].setAddress("Instruction " + (i - 28));
         }
     }
-
-
-    public static void main(String[] args) {
-
-    }
-
 
 }

@@ -3,12 +3,12 @@ import java.util.ArrayList;
 public class Process {
     private ProcessControlBlock pcb;
     private ArrayList<String> program;
-    private int arrivalTime;
 
-    public Process(ProcessControlBlock pcb, ArrayList<String> program, int arrivalTime) {
+    private Object temp;
+
+    public Process(ProcessControlBlock pcb, ArrayList<String> program) {
         this.pcb = pcb;
         this.program = program;
-        this.arrivalTime = arrivalTime;
     }
 
     public ProcessControlBlock getPcb() {
@@ -27,16 +27,16 @@ public class Process {
         this.program = program;
     }
 
-    public int getArrivalTime() {
-        return arrivalTime;
+    public Object getTemp() {
+        return temp;
     }
 
-    public void setArrivalTime(int arrivalTime) {
-        this.arrivalTime = arrivalTime;
+    public void setTemp(Object temp) {
+        this.temp = temp;
     }
 
     @Override
     public String toString() {
-        return "PCB: " + pcb + " Program: " + program.toString() + " ArrivalTime: " + arrivalTime;
+        return "PCB: " + pcb + " Program: " + program.toString() + "Temp Variable: " + this.temp;
     }
 }

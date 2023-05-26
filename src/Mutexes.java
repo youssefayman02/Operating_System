@@ -5,9 +5,9 @@ public class Mutexes {
     private boolean userInputKey;
     private boolean userOutputKey;
     private boolean fileKey;
-    private Queue<Process> blockedUserInput;
-    private Queue<Process> blockedUserOutput;
-    private Queue<Process> blockedFile;
+    private Queue<Integer> blockedUserInput;
+    private Queue<Integer> blockedUserOutput;
+    private Queue<Integer> blockedFile;
     private int userInputOwner;
     private int userOutputOwner;
     private int fileOwner;
@@ -22,16 +22,14 @@ public class Mutexes {
         this.blockedFile = new LinkedList<>();
     }
 
-    //we have to manipulate the memory but not sure about its format
-    public boolean semWait (String resource, Process process)
+    public boolean semWait (String resource, Integer processId)
     {
-        int processId = process.getPcb().getProcessId();
         resource = resource.toLowerCase();
 
         switch (resource)
         {
             case "userinput":
-                System.out.println("---------------------------------------- User Input ----------------------------------------");
+                System.out.println("---------------------------------------- User Input Resource----------------------------------------");
                 if (userInputKey)
                 {
                     this.userInputOwner = processId;
@@ -41,13 +39,12 @@ public class Mutexes {
                 else
                 {
                     System.out.println("---------------------------------------- Process " + processId + " blocked on input resource ----------------------------------------");
-                    process.getPcb().setProcessState(ProcessState.BLOCKED);
-                    this.blockedUserInput.add(process);
+                    this.blockedUserInput.add(processId);
                     return false;
                 }
 
             case "useroutput":
-                System.out.println("---------------------------------------- User Output ----------------------------------------");
+                System.out.println("---------------------------------------- User Output Resource ----------------------------------------");
                 if (userOutputKey)
                 {
                     this.userOutputOwner = processId;
@@ -57,52 +54,47 @@ public class Mutexes {
                 else
                 {
                     System.out.println("---------------------------------------- Process " + processId + " blocked on output resource ----------------------------------------");
-                    process.getPcb().setProcessState(ProcessState.BLOCKED);
-                    this.blockedUserOutput.add(process);
+                    this.blockedUserOutput.add(processId);
                     return false;
                 }
 
             case "file":
-                System.out.println("---------------------------------------- File ----------------------------------------");
+                System.out.println("---------------------------------------- File Resource ----------------------------------------");
                 if (fileKey)
                 {
                     this.fileOwner = processId;
-                    this.userOutputKey = false;
+                    this.fileKey = false;
                     return true;
                 }
                 else
                 {
                     System.out.println("---------------------------------------- Process " + processId + " blocked on file resource ----------------------------------------");
-                    process.getPcb().setProcessState(ProcessState.BLOCKED);
-                    this.blockedFile.add(process);
+                    this.blockedFile.add(processId);
                     return false;
                 }
         }
         return false;
     }
 
-    public int semSignal (String resource, Process process)
+    public int semSignal (String resource, Integer processId)
     {
-        int processId = process.getPcb().getProcessId();
         resource = resource.toLowerCase();
 
         switch (resource)
         {
             case "userinput":
-                System.out.println("---------------------------------------- User Input ----------------------------------------");
+                System.out.println("---------------------------------------- User Input Resource ----------------------------------------");
                 if (this.userInputOwner == processId)
                 {
+                    userInputKey = true;
                     if (!this.blockedUserInput.isEmpty())
                     {
-                        Process target = this.blockedUserInput.poll();
-                        int targetId = target.getPcb().getProcessId();
-                        target.getPcb().setProcessState(ProcessState.READY);
+                        int targetId = this.blockedUserInput.poll();
                         deleteFromQueue(this.blockedUserInput, targetId);
                         return targetId;
                     }
                     else
                     {
-                        userInputKey = true;
                         return -1;
                     }
                 }
@@ -111,17 +103,15 @@ public class Mutexes {
                 System.out.println("---------------------------------------- User Output ----------------------------------------");
                 if (this.userOutputOwner == processId)
                 {
+                    userOutputKey = true;
                     if (!this.blockedUserOutput.isEmpty())
                     {
-                        Process target = this.blockedUserOutput.poll();
-                        int targetId = target.getPcb().getProcessId();
-                        target.getPcb().setProcessState(ProcessState.READY);
+                        int targetId = this.blockedUserOutput.poll();
                         deleteFromQueue(this.blockedUserOutput, targetId);
                         return targetId;
                     }
                     else
                     {
-                        userOutputKey = true;
                         return -1;
                     }
                 }
@@ -130,17 +120,15 @@ public class Mutexes {
                 System.out.println("---------------------------------------- File ----------------------------------------");
                 if (this.fileOwner == processId)
                 {
+                    fileKey = true;
                     if (!this.blockedFile.isEmpty())
                     {
-                        Process target = this.blockedFile.poll();
-                        int targetId = target.getPcb().getProcessId();
-                        target.getPcb().setProcessState(ProcessState.READY);
+                        int targetId = this.blockedFile.poll();
                         deleteFromQueue(this.blockedFile, targetId);
                         return targetId;
                     }
                     else
                     {
-                        fileKey = true;
                         return -1;
                     }
                 }
@@ -148,22 +136,22 @@ public class Mutexes {
         return -1;
     }
 
-    public void deleteFromQueue (Queue<Process> queue, Integer processId)
+    public void deleteFromQueue (Queue<Integer> queue, Integer processId)
     {
-        Queue<Process> result = new LinkedList<>();
+        Queue<Integer> result = new LinkedList<>();
         while (!queue.isEmpty())
         {
-            Process target = queue.poll();
+            Integer targetId = queue.poll();
 
-            if (! (processId == target.getPcb().getProcessId()))
+            if (! (processId == targetId))
             {
-                result.add(target);
+                result.add(targetId);
             }
         }
 
         while (!result.isEmpty())
         {
-            Process target = result.poll();
+            Integer target = result.poll();
             queue.add(target);
         }
     }
@@ -192,27 +180,27 @@ public class Mutexes {
         this.fileKey = fileKey;
     }
 
-    public Queue<Process> getBlockedUserInput() {
+    public Queue<Integer> getBlockedUserInput() {
         return blockedUserInput;
     }
 
-    public void setBlockedUserInput(Queue<Process> blockedUserInput) {
+    public void setBlockedUserInput(Queue<Integer> blockedUserInput) {
         this.blockedUserInput = blockedUserInput;
     }
 
-    public Queue<Process> getBlockedUserOutput() {
+    public Queue<Integer> getBlockedUserOutput() {
         return blockedUserOutput;
     }
 
-    public void setBlockedUserOutput(Queue<Process> blockedUserOutput) {
+    public void setBlockedUserOutput(Queue<Integer> blockedUserOutput) {
         this.blockedUserOutput = blockedUserOutput;
     }
 
-    public Queue<Process> getBlockedFile() {
+    public Queue<Integer> getBlockedFile() {
         return blockedFile;
     }
 
-    public void setBlockedFile(Queue<Process> blockedFile) {
+    public void setBlockedFile(Queue<Integer> blockedFile) {
         this.blockedFile = blockedFile;
     }
 
@@ -240,8 +228,6 @@ public class Mutexes {
         this.fileOwner = fileOwner;
     }
 
-    public static void main(String[] args) {
-    }
 
 
 }

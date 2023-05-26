@@ -15,8 +15,9 @@ public class SystemCalls {
             String line;
 
             while ((line = br.readLine()) != null) {
-                content.append(line + "\n");
+                content.append(line + " ");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
