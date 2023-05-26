@@ -72,21 +72,21 @@ public class Scheduler {
             System.out.println("---------------------------------------- Clk Cycle: " + clkCycles + " ----------------------------------------");
             if (clkCycles == this.arrivalTime1)
             {
-                System.out.println("---------------------------------------- Process 0 arrived ----------------------------------------");
+                System.out.println("---------------------------------------- " + fileName1 + " arrived ----------------------------------------");
                 this.readyQueue.add(createProcessAndAllocate(fileName1));
                 memory.printMemory();
             }
 
             if (clkCycles == this.arrivalTime2)
             {
-                System.out.println("---------------------------------------- Process 1 arrived ----------------------------------------");
+                System.out.println("---------------------------------------- " + fileName2 + " arrived ----------------------------------------");
                 this.readyQueue.add(createProcessAndAllocate(fileName2));
                 memory.printMemory();
             }
 
             if (clkCycles == this.arrivalTime3)
             {
-                System.out.println("---------------------------------------- Process 2 arrived ----------------------------------------");
+                System.out.println("---------------------------------------- " + fileName3 + " arrived ----------------------------------------");
                 this.readyQueue.add(createProcessAndAllocate(fileName3));
                 memory.printMemory();
             }

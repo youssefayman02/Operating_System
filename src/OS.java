@@ -16,7 +16,7 @@ public class OS {
     }
 
     public static void main(String[] args) {
-        OS os = new OS("Program_1", "Program_2", "Program_3", 6, 3, 5, 2);
+        OS os = new OS("Program_1", "Program_2", "Program_3", 6, 3, 4, 2);
         os.simulate();
     }
 }
