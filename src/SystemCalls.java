@@ -18,6 +18,9 @@ public class SystemCalls {
                 content.append(line + " ");
             }
 
+            fr.close();
+            br.close();
+
         } catch (Exception e) {
             System.out.println("File not found");
         }
@@ -53,8 +56,7 @@ public class SystemCalls {
     }
 
     public Object readMemory(int index, Memory memory) {
-        if (memory.isValidAddress(index))
-        {
+        if (memory.isValidAddress(index)) {
             return memory.getMemoryWords()[index];
         }
         System.out.println("Invalid address to read from");
@@ -62,16 +64,12 @@ public class SystemCalls {
     }
 
     public void writeMemory(Object data, int index, Memory memory) {
-        if (memory.isValidAddress(index))
-        {
+        if (memory.isValidAddress(index)) {
             memory.getMemoryWords()[index].setData(data);
             return;
-        }
-        else
-        {
+        } else {
             System.out.println("Invalid address to write to");
         }
     }
-
 
 }

@@ -1,4 +1,3 @@
-import java.util.Vector;
 
 public class Memory {
     private MemoryWord[] memoryWords;
@@ -22,49 +21,44 @@ public class Memory {
         return memorySize;
     }
 
-    public boolean isValidAddress (int address)
-    {
+    public boolean isValidAddress(int address) {
         return address >= 0 && address < memorySize;
     }
 
-    public void printMemory()
-    {
+    public void printMemory() {
         System.out.println("Memory Contents: ");
-        System.out.println("**************************************** First Partition ****************************************");
+        System.out.println(
+                "**************************************** First Partition ****************************************");
 
-        for (int i = 0; i < 20; i++)
-        {
-            System.out.println("Address " + i + ": "+this.memoryWords[i].toString());
+        for (int i = 0; i < 20; i++) {
+            System.out.println("Address " + i + ": " + this.memoryWords[i].toString());
         }
 
-        System.out.println("**************************************** Second Partition ****************************************");
+        System.out.println(
+                "**************************************** Second Partition ****************************************");
 
-        for (int i = 20; i < memorySize; i++)
-        {
-            System.out.println("Address " + i + ": "+this.memoryWords[i].toString());
+        for (int i = 20; i < memorySize; i++) {
+            System.out.println("Address " + i + ": " + this.memoryWords[i].toString());
         }
 
-        System.out.println("**************************************** End Memory ****************************************");
+        System.out.println(
+                "**************************************** End Memory ****************************************");
     }
 
-    public boolean isFirstPartitionEmpty()
-    {
+    public boolean isFirstPartitionEmpty() {
         return memoryWords[0].getData() == null;
     }
 
-    public boolean isSecondPartitionEmpty()
-    {
+    public boolean isSecondPartitionEmpty() {
         return memoryWords[20].getData() == null;
     }
-    public boolean isEmpty()
-    {
+
+    public boolean isEmpty() {
         return isFirstPartitionEmpty() || isSecondPartitionEmpty();
     }
 
-    public void initializeFirstPartition()
-    {
-        for (int i = 0; i < 20; i++)
-        {
+    public void initializeFirstPartition() {
+        for (int i = 0; i < 20; i++) {
             this.memoryWords[i] = new MemoryWord();
         }
 
@@ -77,16 +71,13 @@ public class Memory {
         this.memoryWords[6].setAddress("Variable 2");
         this.memoryWords[7].setAddress("Variable 3");
 
-        for (int i = 8; i < 20; i++)
-        {
+        for (int i = 8; i < 20; i++) {
             this.memoryWords[i].setAddress("Instruction " + (i - 8));
         }
     }
 
-    public void initializeSecondPartition()
-    {
-        for (int i = 20; i < memorySize; i++)
-        {
+    public void initializeSecondPartition() {
+        for (int i = 20; i < memorySize; i++) {
             this.memoryWords[i] = new MemoryWord();
         }
 
@@ -99,8 +90,7 @@ public class Memory {
         this.memoryWords[26].setAddress("Variable 2");
         this.memoryWords[27].setAddress("Variable 3");
 
-        for (int i = 28; i < memorySize; i++)
-        {
+        for (int i = 28; i < memorySize; i++) {
             this.memoryWords[i].setAddress("Instruction " + (i - 28));
         }
     }
