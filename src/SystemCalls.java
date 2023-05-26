@@ -66,7 +66,6 @@ public class SystemCalls {
     public void writeMemory(Object data, int index, Memory memory) {
         if (memory.isValidAddress(index)) {
             memory.getMemoryWords()[index].setData(data);
-            return;
         } else {
             System.out.println("Invalid address to write to");
         }
