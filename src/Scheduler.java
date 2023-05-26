@@ -214,7 +214,7 @@ public class Scheduler {
         {
             Object instruction =  memory.getMemoryWords()[8 + programCounter].getData();
 
-            if ( programCounter  > 12 || instruction == null)
+            if (programCounter  > 11 || instruction == null)
             {
                 return true;
             }
@@ -264,6 +264,7 @@ public class Scheduler {
     {
         ArrayList<String> program = interpreter.readProgram(fileName);
         ProcessControlBlock pcb = new ProcessControlBlock(processes++, ProcessState.READY, 0,0,0);
+
         if (memory.isFirstPartitionEmpty())
         {
             pcb.setStartBoundary(0);

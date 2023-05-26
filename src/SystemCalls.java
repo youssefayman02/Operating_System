@@ -19,7 +19,7 @@ public class SystemCalls {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("File not found");
         }
 
         return content.toString();
