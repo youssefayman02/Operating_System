@@ -26,6 +26,7 @@ public class Memory {
     {
         return address >= 0 && address < memorySize;
     }
+
     public void printMemory()
     {
         System.out.println("Memory Contents: ");
