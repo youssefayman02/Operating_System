@@ -155,6 +155,10 @@ public class Scheduler {
                     System.out.println("Instruction is not supported"); break;
             }
 
+            programCounter++;
+            setProgramCounterInMemory(programCounter, currProcessId);
+            memory.printMemory();
+
             if (isBlocked)
             {
                 this.blockedQueue.add(currProcessId);
@@ -166,9 +170,6 @@ public class Scheduler {
                 continue;
             }
 
-            programCounter++;
-            setProgramCounterInMemory(programCounter, currProcessId);
-            memory.printMemory();
 
             if (checkFinishedInstructions(programCounter, currProcessId))
             {

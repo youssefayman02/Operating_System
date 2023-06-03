@@ -1,1 +1,20 @@
-
+0
+FINISHED
+9
+0
+19
+Variable a 10
+Variable b 15
+Variable 3 null
+semWait userInput
+input 
+assign a
+input 
+assign b
+semSignal userInput
+semWait userOutput
+printFromTo a b
+semSignal userOutput
+null
+null
+null

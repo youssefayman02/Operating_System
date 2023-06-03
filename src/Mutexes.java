@@ -86,15 +86,16 @@ public class Mutexes {
                 System.out.println("---------------------------------------- User Input Resource ----------------------------------------");
                 if (this.userInputOwner == processId)
                 {
-                    userInputKey = true;
                     if (!this.blockedUserInput.isEmpty())
                     {
                         int targetId = this.blockedUserInput.poll();
+                        userInputOwner = targetId;
                         deleteFromQueue(this.blockedUserInput, targetId);
                         return targetId;
                     }
                     else
                     {
+                        userInputKey = true;
                         return -1;
                     }
                 }
@@ -103,15 +104,16 @@ public class Mutexes {
                 System.out.println("---------------------------------------- User Output ----------------------------------------");
                 if (this.userOutputOwner == processId)
                 {
-                    userOutputKey = true;
                     if (!this.blockedUserOutput.isEmpty())
                     {
                         int targetId = this.blockedUserOutput.poll();
+                        userOutputOwner = targetId;
                         deleteFromQueue(this.blockedUserOutput, targetId);
                         return targetId;
                     }
                     else
                     {
+                        userOutputKey = true;
                         return -1;
                     }
                 }
@@ -120,15 +122,16 @@ public class Mutexes {
                 System.out.println("---------------------------------------- File ----------------------------------------");
                 if (this.fileOwner == processId)
                 {
-                    fileKey = true;
                     if (!this.blockedFile.isEmpty())
                     {
                         int targetId = this.blockedFile.poll();
+                        fileOwner = targetId;
                         deleteFromQueue(this.blockedFile, targetId);
                         return targetId;
                     }
                     else
                     {
+                        fileKey = true;
                         return -1;
                     }
                 }
